@@ -11,7 +11,7 @@ We use the [esci](https://github.com/amazon-science/esci-data) dataset, with the
 Results with Gemini `text-embedding-004`
 
     spanish nDCG 0.6664
-
+    english nDCG 0.6765
 
 ## retrieval inspection
 
