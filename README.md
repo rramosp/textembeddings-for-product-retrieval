@@ -15,11 +15,11 @@ Results with Gemini `text-embedding-004`
 
 ## retrieval inspection
 
-The dataset has nice annotations but they are far from complete. In the following three query examples there are many products that clearly match the query but have not been identified as relevant. Comparisons between models in this sense have to be interpreted with care.![alt text](imgs/queries.png) 
+The dataset has nice annotations but there seems to be many not-annotated products that may also be relevant to queries. In the following three query examples there are many products that clearly match the query but have not been identified as relevant. Comparisons between models in this sense have to be interpreted with care.![alt text](imgs/queries.png) 
 
 ## product embeddings
 
-Products are described by four fields `product_id`, `product_title`, `product_description`, `product_bullet_point`, `product_brand` and `product_color`. All products have id and title, but many are missing one or more of the other fields. Existing fields are concatenated with corresponding XML tags and then sent to generate embeddings. 
+Products are described by the following fields `product_id`, `product_title`, `product_description`, `product_bullet_point`, `product_brand` and `product_color`. All products have id and title, but many are missing one or more of the other fields. Existing fields are concatenated with corresponding XML tags and then sent to generate embeddings. 
 
 The following is an example of the string assembled for one random product
 
