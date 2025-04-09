@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from google import genai
+from openai import OpenAI
 from time import sleep
 from joblib import Parallel, delayed
 
@@ -149,7 +150,61 @@ def get_gemini_embeddings(texts_list, api_key):
     return np.r_[[ri.values for ri in r]]
 
 
-def get_gemini_batch_embeddings_with_joblib(texts, GEMINI_API_KEY, n_jobs=4):
+
+def get_openai_embeddings(texts_list, api_key):
+
+    """
+    texts_list: a list of n strings 
+
+    retruns: a np array of n rows, with the embeddings corresponding to each string in texts_list
+    """
+
+    if not isinstance(texts_list, list):
+        raise ValueError('texts_list must be a list of strings')
+
+    texts_list = [t.replace("\n", " ") for t in texts_list]
+
+    model = 'text-embedding-3-large'
+
+    client = OpenAI(api_key = api_key)
+    
+    result = client.embeddings.create(input = texts_list, model=model)
+
+    if not 'data' in dir(result):
+        raise ValueError(f'error in request {result}')
+    
+    r = np.r_[[ri.embedding for ri in result.data]]
+    return r
+
+
+def get_batch_embeddings(texts, embeddings_fn, api_key, chunk_size=100):
+    texts = list(texts)
+    
+    embeddings = []
+    n_chunks = len(texts) // chunk_size
+
+    for i in tqdm(range(0, len(texts),chunk_size)):
+        embs = embeddings_fn(texts[i:i+chunk_size], api_key)
+        for ei in embs:
+            embeddings.append(ei)
+
+        # sleep to keep down to quota maximun rate per minute
+        sleep(.001)
+    
+    return embeddings
+
+
+def get_gemini_batch_embeddings(texts, GEMINI_API_KEY, chunk_size=100):
+    return get_batch_embeddings(texts, get_gemini_embeddings, GEMINI_API_KEY, chunk_size=chunk_size)
+
+
+def get_openai_batch_embeddings(texts, OPENAI_API_KEY, chunk_size=100):
+    return get_batch_embeddings(texts, get_openai_embeddings, OPENAI_API_KEY, chunk_size=chunk_size)
+
+
+
+# ---- old stuff -------
+def xget_gemini_batch_embeddings_with_joblib(texts, GEMINI_API_KEY, n_jobs=4):
     
     texts = list(texts)
     
@@ -168,7 +223,7 @@ def get_gemini_batch_embeddings_with_joblib(texts, GEMINI_API_KEY, n_jobs=4):
     
     return embeddings
 
-def get_gemini_batch_embeddings(texts, GEMINI_API_KEY):
+def xget_gemini_batch_embeddings(texts, GEMINI_API_KEY):
     texts = list(texts)
     
     embeddings = []
@@ -184,3 +239,4 @@ def get_gemini_batch_embeddings(texts, GEMINI_API_KEY):
         sleep(.001)
     
     return embeddings
+
