@@ -33,7 +33,7 @@ With [`sklearn ndcg_score`](https://scikit-learn.org/stable/modules/generated/sk
 
 |	| wands|	esci-es	|esci-us|
 |---|---|---|---|
-|openai	|0.615339|	0.676370|	|0.623495|
+|openai	|0.615339|	0.676370|	0.623495|
 |text-exp0307|	0.637729	|0.696486	|0.650716|
 |text-004	|0.618541	|0.554086	|0.605527|
 
