@@ -3,35 +3,62 @@
 
 Use text embeddings to represent both queries and products, and perform dot product to get the most similar products given a query.
 
-We use the [esci](https://github.com/amazon-science/esci-data) dataset, with the following locales
-
-    locale es (spanish) 15180 queries, 259973 products
-    locale us (english) 97345 queries, 1215851 products
-
-The dataset contains `(query, [products])` pairs so that for each query there is a list of products each one manually labeled as Exact, Substitute, Complement or Irrelevant with respective relevance scores 4,3,2,1 when computing nDCG.
+## Datasets
 
 
-Results with Gemini `text-embedding-004`, embedding size 768
+We use two datasets
 
-                    full    only annotated
-    spanish nDCG   0.6664       0.9680
-    english nDCG   0.6765       0.9785
+- the [esci](https://github.com/amazon-science/esci-data) Spanish dataset
 
-Results with OpenAI `text-embedding-3-large`, embedding size 3072
+- the [esci](https://github.com/amazon-science/esci-data) English dataset
 
-                    full    only annotated
-    spanish nDCG   0.7384       0.9724
-    english nDCG   0.6933       0.9785
+- the [wands](https://github.com/wayfair/WANDS) dataset which is in English
 
-Dataset baseline (performed on a test split, includes Japanese)
+The following tables summarizes the datasets
 
-                            only annotated
-    global nDCG                 0.83
+|   | wands  | esci-es  | esci-us  |
+|---|---|---|---|
+|num_products | 42994 | 259973 | 1215851 |
+|num_queries | 480 | 15180 | 97345 |
+|num_relevance_judgements | 233448 | 356410 | 1818825 |
+| mean_num_relevance_judgements_per_query | 486.35 | 23.47892 | 18.684319 \
 
 
-**full** experiments search in all existing products given a query. This effectively results in many false negatives (see comment below).
 
-**only annotated** experiments search only in the products that have been annotated for each query. For a given query, this effectively amounts to having the retrieval model (embeddings dot product) trying to rank the products annotated for that query without looking at any other products.
+
+
+|relevance|label| pct of judgements|
+|---|---|---|
+|2 |Exact |    0.109720|
+|1 |Partial|    0.628118|
+|0 |Irrelevant|    0.262161|
+
+
+[esci](https://github.com/amazon-science/esci-data) provides four relevance judgements
+
+
+|relevance|label|esci-us|esci-es|
+|---|---|---|---|
+|4 | Exact |   0.566948 | 0.685914
+|3 | Substitute |  0.057526 | 0.022019
+|2 | Complemente |  0.249878  | 0.203050
+|1 | Irrelevant |   0.125647 | 0.089016
+
+## Results
+
+ We use binary relevance, considering in `wands` other than relevance 2 as not relevant, and in `esci-us` and `esci-es` other than relevance 4 as not relevant.
+
+With [`sklearn ndcg_score`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.ndcg_score.html), using the inverse ranking given by dot product similarity as `y_score`
+
+|	| wands|	esci-es	|esci-us|
+|---|---|---|---|
+|openai	|0.615339|	0.676370|	|0.623495|
+|text-exp0307|	0.637729	|0.696486	|0.650716|
+|text-004	|0.618541	|0.554086	|0.605527|
+
+
+
+Results with Google `text-embedding-004`, embedding size 768
 
 ## retrieval inspection on full experiments
 
