@@ -6,7 +6,7 @@ Use text embeddings to represent both queries and products, and perform dot prod
 ## Datasets
 
 
-We use two datasets
+We use three datasets
 
 - the [esci](https://github.com/amazon-science/esci-data) Spanish dataset
 
