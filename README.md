@@ -25,25 +25,6 @@ The following tables summarizes the datasets
 
 
 
-
-
-|relevance|label| pct of judgements|
-|---|---|---|
-|2 |Exact |    0.109720|
-|1 |Partial|    0.628118|
-|0 |Irrelevant|    0.262161|
-
-
-[esci](https://github.com/amazon-science/esci-data) provides four relevance judgements
-
-
-|relevance|label|esci-us|esci-es|
-|---|---|---|---|
-|4 | Exact |   0.566948 | 0.685914
-|3 | Substitute |  0.057526 | 0.022019
-|2 | Complemente |  0.249878  | 0.203050
-|1 | Irrelevant |   0.125647 | 0.089016
-
 ## Results
 
  We use binary relevance, considering in `wands` other than relevance 2 as not relevant, and in `esci-us` and `esci-es` other than relevance 4 as not relevant.
@@ -58,16 +39,25 @@ With [`sklearn ndcg_score`](https://scikit-learn.org/stable/modules/generated/sk
 
 
 
-Results with Google `text-embedding-004`, embedding size 768
+## Notes
 
-## retrieval inspection on full experiments
+- `text-004` are only English embeddings however they perform reasonably weel on `esci-es`. See [notebook 05](https://github.com/rramosp/textembeddings-for-product-retrieval/blob/main/05%20-%20inspect%20ranking.ipynb).
 
-The dataset has nice annotations but there seems to be many not-annotated products that may also be relevant to queries. This affects the **full** experiments which do retrieval in the full product space. In the following three query examples there are many products that clearly match the query but have not been identified as relevant. Comparisons between models in this sense have to be interpreted with care.![alt text](imgs/queries.png) 
+- relevance judgement distribution on `wands`
 
-## product embeddings
+|relevance|label| pct of judgements|
+|---|---|---|
+|2 |Exact |    0.109720|
+|1 |Partial|    0.628118|
+|0 |Irrelevant|    0.262161|
 
-Products are described by the following fields `product_id`, `product_title`, `product_description`, `product_bullet_point`, `product_brand` and `product_color`. All products have id and title, but many are missing one or more of the other fields. Existing fields are concatenated with corresponding XML tags and then sent to generate embeddings. 
+- relevance distributions on `esci`
 
-The following is an example of the string assembled for one random product
 
-![alt text](imgs/product.png)
+|relevance|label|esci-us|esci-es|
+|---|---|---|---|
+|4 | Exact |   0.566948 | 0.685914
+|3 | Substitute |  0.057526 | 0.022019
+|2 | Complemente |  0.249878  | 0.203050
+|1 | Irrelevant |   0.125647 | 0.089016
+
