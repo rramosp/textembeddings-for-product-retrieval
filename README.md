@@ -27,9 +27,9 @@ The following tables summarizes the datasets
 
 ## Results
 
- We use binary relevance, considering in `wands` other than relevance 2 as not relevant, and in `esci-us` and `esci-es` other than relevance 4 as not relevant (see the distribution of relevance judgements below).
+ We use binary relevance, considering in `wands` other than relevance 2 as not relevant, and in `esci-us` and `esci-es` other than relevance 4 as not relevant (see the distribution of relevance judgements below). For each query, we consider only the top 40 most similar products according to dot product similarity.
 
-With [`sklearn ndcg_score`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.ndcg_score.html), using `1/ranked_position` as given by dot product similarity as `y_score`
+With [`sklearn ndcg_score`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.ndcg_score.html), using `1/ranked_position` as `y_score`
 
 |	| wands|	esci-es	|esci-us|
 |---|---|---|---|
