@@ -21,7 +21,7 @@ The following tables summarizes the datasets
 |num_products | 42994 | 259973 | 1215851 |
 |num_queries | 480 | 15180 | 97345 |
 |num_relevance_judgements | 233448 | 356410 | 1818825 |
-| mean_num_relevance_judgements_per_query | 486.3 | 23.5 | 18.7 \
+| mean_num_relevance_judgements_per_query | 486.3 | 23.5 | 18.7 
 
 
 
