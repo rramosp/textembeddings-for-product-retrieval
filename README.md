@@ -1,7 +1,7 @@
 
 # text embeddings for product retrieval
 
-Use text embeddings to represent both queries and products, and perform dot product to get the most similar products given a query.
+Use text embeddings to represent both queries and products, and compute the dot product to get the most similar products given a query.
 
 ## Datasets
 
@@ -27,21 +27,21 @@ The following tables summarizes the datasets
 
 ## Results
 
- We use binary relevance, considering in `wands` other than relevance 2 as not relevant, and in `esci-us` and `esci-es` other than relevance 4 as not relevant.
+ We use binary relevance, considering in `wands` other than relevance 2 as not relevant, and in `esci-us` and `esci-es` other than relevance 4 as not relevant (see the distribution of relevance judgements below).
 
 With [`sklearn ndcg_score`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.ndcg_score.html), using the inverse ranking given by dot product similarity as `y_score`
 
 |	| wands|	esci-es	|esci-us|
 |---|---|---|---|
-|google `text-embedding-large-exp-03-07`|	0.637729	|0.696486	|0.650716|
-|openai	`text-embedding-3-large`|0.615339|	0.676370|	0.623495|
-|google `text-embedding-004`	|0.618541	|0.554086	|0.605527|
+|google `text-embedding-large-exp-03-07`|	0.638	|0.697	|0.651|
+|openai	`text-embedding-3-large`|0.615|	0.676|	0.623|
+|google `text-embedding-004`	|0.618	|0.554	|0.606|
 
 
 
 ## Notes
 
-- `text-004` are only English embeddings however they perform reasonably weel on `esci-es`. See [notebook 05](https://github.com/rramosp/textembeddings-for-product-retrieval/blob/main/05%20-%20inspect%20ranking.ipynb).
+- `text-004` are only English embeddings however they perform reasonably well on `esci-es`. See [notebook 05](https://github.com/rramosp/textembeddings-for-product-retrieval/blob/main/05%20-%20inspect%20ranking.ipynb).
 
 - relevance judgement distribution on `wands`
 
